@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>temrin2</title>
+</head>
+
+<body>
+    <div>
+        <h1>Winer App</h1>
+    </div>
+    <div id="app">
+        <div class="list">
+            <ul>
+                <input type="text" placeholder="Add name..." v-model="newVal" @keyup.enter="addVal">
+                <li>No | Name</li>
+                <br>
+                <li v-for=" val in dataTest.names " :key="val.id">{{val.id}} | {{val.name}}</li>
+            </ul>
+        </div>
+        <card v-model="dataTest"></card>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                newVal: '',
+                dataTest: {
+                    test: 'Karam',
+                    names: [],
+                }
+            },
+            methods: {
+                addVal() {
+                    // console.log(this.newVal)
+                    if (this.newVal !== '') {
+                        this.dataTest.names.push({
+                            id: this.dataTest.names.length + 1,
+                            name: this.newVal
+                        })
+                        this.newVal = ''
+                    }
+                    // console.log(this.dataTest.names)
+                }
+            },
+            components: {
+                'card': {
+                    data() {
+                        return {
+                            counter: 1,
+                            show: false,
+                            newValue: this.value,
+                        }
+                    },
+                    props: {
+                        value: {
+                            type: Object,
+                            required: true,
+                        },
+                    },
+                    template: ` <div class="counter">
+                                
+                                <h1>{{counter}}</h1>
+                                <button @click="started">Start</button>
+                                <button @click="show = true">Stop</button>
+                                <h1 v-show="show">{{showWiner}}</h1>
+                                </div>`,
+                    methods: {
+                        started() {
+                            this.show = false;
+                            var id = setInterval(() => {
+                                this.counter++;
+                                this.counter == this.newValue.names.length + 1 ? this.counter = 1 : this.counter;
+                                this.show == true ? clearInterval(id) : this.show;
+                            }, .0001)
+                        },
+                    },
+                    computed: {
+                        showWiner() {
+                            return this.newValue.names.length ? "Winer is :" + this.newValue.names[this.counter - 1].name : ""
+                        }
+                    },
+                },
+            }
+        });
+    </script>
+    <style>
+        h1 {
+            color: #ffffff;
+        }
+        
+        ul {
+            color: #ffffff;
+        }
+        
+        div {
+            padding: 50 0;
+            margin: 50px;
+        }
+        
+        .list {
+            float: left;
+            direction: ltr;
+        }
+        
+        .counter {
+            float: right;
+            direction: rtl;
+        }
+        
+        body {
+            background: #0F2027;
+            /* fallback for old browsers */
+            background: -webkit-linear-gradient(to left, #2C5364, #203A43, #0F2027);
+            /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to left, #2C5364, #203A43, #0F2027);
+            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        }
+        
+        .footer {
+            align-items: center;
+            align-self: center;
+            align-content: center;
+            padding: 20px 0;
+            margin: 0 auto;
+            min-width: 640px;
+        }
+    </style>
+
+</body>
+
+</html>
